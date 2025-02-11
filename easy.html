@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@700&display=swap');
+
+        :root {
+            --primary-bg: linear-gradient(135deg, #000000, #ffcc00);
+            --btn-bg: linear-gradient(135deg, #ffcc00, #ff0000);
+            --glow-color: rgba(255, 204, 0, 0.8);
+            --back-btn-color: #00eaff;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: var(--primary-bg);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--glow-color);
+            position: relative;
+        }
+        .btn {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--btn-bg);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px var(--glow-color);
+            margin: 5px;
+            display: block;
+            width: 100%;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #cc9900, #990000);
+            transform: scale(1.05);
+        }
+        .correct {
+            background: green !important;
+        }
+        .wrong {
+            background: red !important;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #222;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: #ffcc00;
+            border-radius: 5px;
+        }
+        .question-container {
+            display: none;
+        }
+        .result-container {
+            display: none;
+            padding-top: 20px;
+        }
+        .congrats {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 204, 0, 0.9);
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px var(--glow-color);
+            animation: fadeInOut 3s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -60%); }
+            25% { opacity: 1; transform: translate(-50%, -50%); }
+            75% { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        /* Back button styling */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--back-btn-color), #006d99);
+            color: black;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 0 0 20px var(--back-btn-color);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #006d99, var(--back-btn-color));
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--back-btn-color);
+        }
+        body {
+            font-size: 18px;
+        }
+
+        .container {
+            font-size: 1.2em;
+        }
+
+        h1, h3 {
+            font-size: 1.5em;
+        }
+
+        .btn {
+            font-size: 1.1em;
+        }
+
+        .back-btn {
+            font-size: 1em;
+        }
+
+        .congrats {
+            font-size: 1.3em;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">⬅ Back</a>
+
+    <div class="container">
+        <h1>Easy Quiz ⚽</h1>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+        <div id="quiz"></div>
+        
+        <div class="result-container">
+            <h2>Quiz Results</h2>
+            <p id="score"></p>
+            <p id="wrong-answers"></p>
+            <button class="btn home" onclick="location.href='index.html'">Go to Home</button>
+            <button class="btn reset" onclick="location.reload()">Reset Quiz</button>
+        </div>
+    </div>
+    <div class="congrats" id="congrats">🎉 Congratulations! You won! 🚀</div>
+    <script>
+        const questions = [
+            { q: "Who won the 2018 FIFA World Cup?", options: ["Brazil", "Germany", "France", "Argentina"], answer: "France" },
+            { q: "How many players are on a football team?", options: ["9", "10", "11", "12"], answer: "11" },
+            { q: "What is the name of the trophy given to the FIFA World Cup winner?", options: ["Champions Trophy", "FIFA World Cup Trophy", "Golden Ball", "UEFA Cup"], answer: "FIFA World Cup Trophy" },
+            { q: "Which country has won the most FIFA World Cups?", options: ["Germany", "Argentina", "Brazil", "Italy"], answer: "Brazil" },
+            { q: "What is the name of the official ball used in the 2022 FIFA World Cup?", options: ["Jabulani", "Tango", "Al Rihla", "Brazuca"], answer: "Al Rihla" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let wrongAnswers = [];
+        const quizContainer = document.getElementById("quiz");
+        const progressBar = document.querySelector(".progress");
+        const resultContainer = document.querySelector(".result-container");
+        const scoreDisplay = document.getElementById("score");
+        const wrongAnswersDisplay = document.getElementById("wrong-answers");
+        const congratsMessage = document.getElementById("congrats");
+
+        function showQuestion() {
+            if (currentQuestion >= questions.length) {
+                resultContainer.style.display = "block";
+                scoreDisplay.textContent = `Your Score: ${score}/${questions.length}`;
+                wrongAnswersDisplay.innerHTML = wrongAnswers.length ? `<b>Wrong Answers:</b><br> ${wrongAnswers.join('<br>')}` : "Perfect Score!";
+                quizContainer.style.display = "none";
+                if (score >= 4) {
+                    congratsMessage.style.display = "block";
+                    setTimeout(() => congratsMessage.style.display = "none", 3000);
+                }
+                return;
+            }
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `<h3>${q.q}</h3>` + q.options.map(option => 
+                `<button class="btn" onclick="checkAnswer(this, '${option}')">${option}</button>`
+            ).join("");
+            progressBar.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
+        }
+
+        function checkAnswer(button, selected) {
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selected === correctAnswer) {
+                score++;
+                button.classList.add("correct");
+            } else {
+                wrongAnswers.push(`${questions[currentQuestion].q} - Correct Answer: ${correctAnswer}`);
+                button.classList.add("wrong");
+            }
+            setTimeout(() => {
+                currentQuestion++;
+                showQuestion();
+            }, 1000);
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>

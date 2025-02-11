@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game - Select Category</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@600&display=swap');
+
+      :root {
+          --primary-bg: black;
+          --btn-bg: linear-gradient(135deg, #ff0000, #ff0000);
+          --correct-color: #00ff00;
+          --wrong-color: #ff0000;
+          --neon-text: #00ccff;
+          --highlight-text: #ff0000;
+          --glow: 0 0 15px;
+      }
+      body {
+          font-family: 'Orbitron', sans-serif;
+          background: radial-gradient(circle, #0d1b2a, #1b263b);
+          text-align: center;
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: white;
+      }
+      h1 {
+          color: var(--neon-text);
+          font-size: 3.5em;
+          text-shadow: var(--glow) var(--highlight-text), 0 0 30px var(--highlight-text);
+          animation: glow-pulse 2s infinite alternate;
+      }
+      @keyframes glow-pulse {
+          0% { text-shadow: var(--glow) var(--highlight-text), 0 0 20px var(--highlight-text); }
+          100% { text-shadow: var(--glow) var(--highlight-text), 0 0 40px var(--highlight-text); }
+      }
+
+        .category:hover {
+            transform: scale(1.1);
+            }
+        .matrix {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            width: 50%;
+            height: 70%;
+            margin-top: 20px;
+            }
+
+            .category-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the text under the image */
+    text-align: center;
+}
+
+.category {
+    width: 70%; /* Adjust as needed */
+    height: 80%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 0 15px var(--neon-text);
+    cursor: pointer;
+}
+
+.category-name {
+    margin-top: 10px; /* Adds space between image and text */
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+}
+
+
+
+      .back-button {
+          position: absolute;
+          top: 25px;
+          left: 25px;
+          display: flex;
+          align-items: center;
+          padding: 12px 25px;
+          font-size: 1.3em;
+          font-weight: bold;
+          color: white;
+          background: linear-gradient(to right, #00509E, #00d4ff);
+          border: none;
+          border-radius: 10px;
+          text-decoration: none;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s;
+          box-shadow: var(--glow) #00d4ff;
+      }
+
+      .back-button:hover {
+          transform: scale(1.1);
+          box-shadow: var(--glow) #00d4ff, 0 0 30px #00d4ff;
+      }
+    </style>
+</head>
+<body>
+    <h1>Select a Category</h1>
+    <div class="matrix">
+        <div class="category-container">
+            <div class="category" style="background-image: url('football.jpg');" onclick="location.href='index.html'"></div>
+            <div class="category-name">Football</div>
+        </div>
+        <div class="category-container">
+            <div class="category" style="background-image: url('aot pic.jpg');" onclick="location.href='adse_movie_index.html'"></div>
+            <div class="category-name">Movies</div>
+        </div>
+        <div class="category-container">
+            <div class="category" style="background-image: url('music image.jpg');" onclick="location.href='Music.html'"></div>
+            <div class="category-name">Music</div>
+        </div>
+        <div class="category-container">
+            <div class="category" style="background-image: url('Tech image.jpg');" onclick="location.href='technology.html'"></div>
+            <div class="category-name">Technology</div>
+        </div>        
+    </div>
+
+    <a href="Quizgamehome.html" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+        </svg>
+        Back
+    </a>
+</body>
+</html>

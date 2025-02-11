@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptech Ultimate Game</title>
+
+    <!-- Inline CSS for styling and animation -->
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #f4a261, #2a9d8f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            animation: fadeIn 2s ease-out;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Fade In Animation for Body */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            animation: textFadeIn 3s ease-in-out;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes textFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+  .start {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        /* Style for buttons */
+        a.button {
+            background: linear-gradient(45deg, #ff6b6b, #ff9a8b);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease-in-out;
+            animation: popIn 0.6s ease-out forwards;
+        }
+
+        /* Hover effect for buttons */
+        a.button:hover {
+            background: linear-gradient(45deg, #f4a261, #ff6b6b);
+            transform: translateY(-6px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Button animation on load */
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Movie theme enhancements */
+        .filmstrip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/film-grain.png');
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .spotlight {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 10%, rgba(0,0,0,0.7) 80%);
+            z-index: -1;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.8em;
+            animation: fadeInUp 1s ease-out;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <!-- Movie theme enhancements -->
+    <div class="filmstrip"></div>
+    <div class="spotlight"></div>
+    <h1>Welcome to ADSE Mini Program – The Ultimate Gaming Hub</h1>
+    <h2>Movies and Series Edition</h2>
+    
+     <div class="start">
+        <a href="adse_movies_homepage.html" class="button">Start</a>
+    </div>
+
+    <footer>
+        <p>Enjoy the thrill of movies and series, brought to you by ADSE-lokogoma</p>
+    </footer>
+</body>
+</html>

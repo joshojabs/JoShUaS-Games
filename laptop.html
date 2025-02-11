@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@600&display=swap');
+
+        :root {
+            --primary-bg: black;
+            --btn-bg: linear-gradient(135deg, #ffcc00, #ff0000);
+            --correct-color: #00ff00;
+            --wrong-color: #ff0000;
+            --neon-text: #ffcc00;
+            --highlight-text: #ff0000;
+            --glow: 0 0 15px;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle, #0d1b2a, #1b263b);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+        h1 {
+            color: var(--neon-text);
+            font-size: 3.5em;
+            text-shadow: var(--glow) var(--highlight-text), 0 0 30px var(--highlight-text);
+            animation: glow-pulse 2s infinite alternate;
+        }
+        @keyframes glow-pulse {
+            0% { text-shadow: var(--glow) var(--highlight-text), 0 0 20px var(--highlight-text); }
+            100% { text-shadow: var(--glow) var(--highlight-text), 0 0 40px var(--highlight-text); }
+        }
+        .question {
+            font-size: 2em;
+            color: #fff;
+            margin: 20px 0;
+            text-shadow: var(--glow) #00ffff;
+            animation: fade-in 1s ease-in;
+        }
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .options button {
+            display: block;
+            width: 320px;
+            padding: 15px;
+            margin: 15px auto;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: linear-gradient(135deg, #ffcc00, #ff0000);
+            color: white;
+            text-shadow: 0 0 5px black;
+            box-shadow: var(--glow) #ffcc00;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .options button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--glow) #ffcc00, 0 0 30px #ffcc00;
+        }
+        .options button.correct {
+            background: var(--correct-color);
+            box-shadow: var(--glow) var(--correct-color);
+        }
+        .options button.wrong {
+            background: var(--wrong-color);
+            box-shadow: var(--glow) var(--wrong-color);
+        }
+        .progress-container {
+            width: 70%;
+            background-color: #222;
+            border-radius: 25px;
+            margin: 25px 0;
+            position: relative;
+            height: 35px;
+            box-shadow: var(--glow) #ffcc00;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffcc00, #ff0000);
+            border-radius: 25px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            box-shadow: var(--glow) #ffcc00;
+            transition: width 0.5s ease-in-out;
+        }
+        .progress-text {
+            position: absolute;
+            right: 15px;
+            top: 0;
+            font-size: 1.3em;
+            color: #fff;
+            line-height: 35px;
+            text-shadow: var(--glow) #00ffff;
+        }
+        #next-button {
+            display: none;
+            padding: 15px 30px;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #00509E, #00d4ff);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: var(--glow) #00d4ff;
+            transition: 0.3s;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        #next-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--glow) #00d4ff, 0 0 30px #00d4ff;
+        }
+        #score-section {
+            display: none;
+            font-size: 1.8em;
+            margin-top: 25px;
+            color: var(--neon-text);
+            text-shadow: var(--glow) var(--highlight-text);
+            animation: fade-in 1s ease-in;
+        }
+        .back-button {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(to right, #00509E, #00d4ff);
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--glow) #00d4ff;
+        }
+        .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--glow) #00d4ff, 0 0 30px #00d4ff;
+        }
+        .back-button svg {
+            margin-right: 10px;
+            fill: white;
+            width: 20px;
+            height: 20px;
+        }
+        #restart-button {
+            display: none;
+            padding: 15px 30px;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #ff0000, #ffcc00);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: 0 0 15px #ffcc00;
+            transition: 0.3s;
+            animation: pulse 1.5s infinite;
+        }
+        #restart-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px #ffcc00;
+        }
+        </style>
+</head>
+<body>
+    <h1>Computer Quiz</h1>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        <div class="progress-text" id="progress-text"></div>
+    </div>
+    <div id="quiz-container">
+        <p class="question" id="question">Loading...</p>
+        <div class="options" id="options"></div>
+        <button id="next-button" onclick="nextQuestion()">Next</button>
+    </div>
+    <div id="score-section"></div>
+    <button id="restart-button" onclick="restartQuiz()">Restart Quiz</button>
+    <a href="Technology.html" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+        </svg>
+        Quit
+    
+    <script>
+        const questions = [
+            {
+                question: "Which company manufactures the MacBook?",
+                options: ["HP", "Dell", "Apple", "Asus"],
+                answer: "Apple"
+            },
+            {
+                question: "What is the default operating system on most laptops?",
+                options: ["Windows", "Linux", "macOS", "Chrome OS"],
+                answer: "Windows"
+            },
+            {
+                question: "What is the term for the laptop's battery life?",
+                options: ["Watt-hours", "mAh", "Celsius", "Voltage"],
+                answer: "Watt-hours"
+            },
+            {
+                question: "Which of these brands is famous for gaming laptops?",
+                options: ["Lenovo", "HP", "Razer", "Apple"],
+                answer: "Razer"
+            },
+            {
+                question: "Which laptop has a 'surface' series?",
+                options: ["Microsoft", "Dell", "Acer", "HP"],
+                answer: "Microsoft"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+            const nextButton = document.getElementById("next-button");
+            
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.innerText = currentQuestion.question;
+            optionsElement.innerHTML = "";
+            nextButton.style.display = "none";
+            
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => checkAnswer(button, option, currentQuestion.answer);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(button, selectedAnswer, correctAnswer) {
+            const nextButton = document.getElementById("next-button");
+            const optionsButtons = document.querySelectorAll(".options button");
+
+            if (selectedAnswer === correctAnswer) {
+                button.classList.add("correct");
+                score++;
+            } else {
+                button.classList.add("wrong");
+                optionsButtons.forEach(btn => {
+                    if (btn.innerText === correctAnswer) {
+                        btn.classList.add("correct");
+                    }
+                });
+            }
+
+            optionsButtons.forEach(btn => btn.disabled = true);
+            nextButton.style.display = "block";
+            updateProgressBar();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const progressText = document.getElementById("progress-text");
+            const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = progressPercent + "%";
+            progressText.innerText = `${currentQuestionIndex + 1}/${questions.length}`;
+        }
+
+        function showScore() {
+            document.getElementById("quiz-container").style.display = "none";
+            const scoreSection = document.getElementById("score-section");
+            scoreSection.style.display = "block";
+            scoreSection.innerText = `You scored ${score} out of ${questions.length}`;
+            document.getElementById("restart-button").style.display = "block";
+
+            if (score === questions.length) {
+        const specialMessage = document.createElement("div");
+        specialMessage.innerText = "You're amazing!";
+        specialMessage.style.fontSize = "2em";
+        specialMessage.style.color = "#00ff00"; // Use a neon green color for emphasis
+        specialMessage.style.textShadow = "0 0 10px #00ff00, 0 0 20px #ff0000";
+        specialMessage.style.marginTop = "20px";
+        scoreSection.appendChild(specialMessage);
+    }
+        }
+
+        loadQuestion();
+        function restartQuiz() {
+            location.reload(); // Reloads the page to restart the quiz
+        }
+    </script>
+</body>
+</html>

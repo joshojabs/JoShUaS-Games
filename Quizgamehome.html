@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADSE Quiz Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@600&display=swap');
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle, #0d1b2a, #1b263b);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            text-shadow: 0 0 15px #ffcc00, 0 0 30px #ffcc00;
+            animation: glow-pulse 2s infinite alternate;
+        }
+        
+        @keyframes glow-pulse {
+            0% { text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00; }
+            100% { text-shadow: 0 0 20px #ffcc00, 0 0 40px #ffcc00; }
+        }
+
+        .container {
+            max-width: 80%;
+        }
+
+        p {
+            font-size: 1.3em;
+            margin: 20px 0;
+            color: #dddddd;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #ffcc00;
+            font-size: 1.2em;
+        }
+
+        .play-button {
+            background: linear-gradient(135deg, #ffcc00, #ff8800);
+            color: black;
+            font-size: 1.5em;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px #ff8800;
+        }
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px #ffcc00, 0 0 50px #ff8800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to ADSE Quiz Game</h1>
+        <p>Embark on an exciting journey to test your knowledge in various categories!</p>
+        <p class="quote">"One month ago, this was just an idea. Now, it’s a reality—proof that learning at Aptech transforms ideas into powerful skills!"</p>
+        <button class="play-button" onclick="window.location.href='game1.html'">Play Now</button>
+    </div>
+</body>
+</html>

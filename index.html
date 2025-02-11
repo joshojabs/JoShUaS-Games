@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APTECH Quiz - Sci-Fi Football</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Rajdhani:wght@600&display=swap');
+
+        :root {
+            --primary-bg: radial-gradient(circle, #000, #222);
+            --btn-bg: linear-gradient(135deg, #ffcc00, #ff0000);
+            --glow-color: rgba(255, 204, 0, 0.8);
+            --neon-text: #ffcc00;
+            --highlight-text: #ff0000;
+            --back-btn-color: #00eaff;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-text);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            background: black;
+        }
+
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: rgba(0, 255, 0, 0.8);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .matrix span {
+            position: absolute;
+            top: -100%;
+            animation: fall 10s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% { top: -100%; opacity: 0.8; }
+            100% { top: 100%; opacity: 0.3; }
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--highlight-text);
+            padding: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 15px var(--glow-color);
+            border-bottom: 3px solid var(--neon-text);
+            animation: flicker 1.5s infinite alternate;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--glow-color);
+            backdrop-filter: blur(15px);
+            z-index: 10;
+            position: relative;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--btn-bg);
+            color: black;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px var(--glow-color);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ff0000, #ffcc00);
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--glow-color);
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--neon-text);
+            font-size: 14px;
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        /* Back button styling */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--back-btn-color), #006d99);
+            color: black;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 0 0 20px var(--back-btn-color);
+            transition: all 0.3s;
+            z-index: 20;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #006d99, var(--back-btn-color));
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--back-btn-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix"></div>
+
+    <a href="game1.html" class="back-btn">⬅ Back</a>
+
+    <div class="header">⚽ APTECH'S ADSE Football Quiz ⚡</div>
+    <div class="container">
+        <h1>Enter the Football Arena!</h1>
+        <p>Compete in an ultimate football trivia challenge.</p>
+        <a href="#" class="btn" onclick="showDifficulty(event)">Start Game</a>
+        <div class="difficulty-container" id="difficulty-container" style="display: none;">
+            <h2>Choose Your Challenge</h2>
+            <a href="easy.html" class="btn">Easy ⚽</a>
+            <a href="medium.html" class="btn">Medium ⚡</a>
+            <a href="hard.html" class="btn">Hard 🚀</a>
+            <a href="legend.html" class="btn">Legend 🔥</a>
+        </div>
+    </div>
+    <div class="footer">🏆 Only Legends Conquer the Ultimate Football Quiz! 🏆</div>
+
+    <script>
+        function createMatrix() {
+            const matrix = document.querySelector('.matrix');
+            const chars = '0C1R071C0R170C1R071C0R170C1R071C0R170C1R071C0R17'.split('');
+            
+            for (let i = 0; i < 1000; i++) {
+                const span = document.createElement('span');
+                span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                span.style.left = Math.random() * 100 + 'vw';
+                span.style.animationDelay = Math.random() * 10 + 's';
+                matrix.appendChild(span);
+            }
+        }
+
+        createMatrix();
+
+        function showDifficulty(event) {
+            event.preventDefault();
+            document.getElementById("difficulty-container").style.display = "block";
+        }
+    </script>
+</body>
+</html>

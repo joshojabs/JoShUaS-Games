@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Quiz - Dark Theme</title>
+    <style>
+        /* Global Styles */
+        body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #1a237e, #0d47a1); /* Bluish gradient */
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    animation: backgroundGlow 6s infinite alternate;
+}
+
+@keyframes backgroundGlow {
+    0% { background: linear-gradient(to bottom, #1a237e, #0d47a1); }
+    100% { background: linear-gradient(to bottom, #0d47a1, #1a237e); }
+}
+
+h1 {
+    font-family: 'Impact', sans-serif;
+    font-size: 60px;
+    color: #66ccff;
+    text-align: center;
+    margin-top: 20px;
+    text-shadow: 0px 0px 15px #66ccff, 0px 0px 30px #fff;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    animation: glowEffect 1.5s infinite alternate;
+}
+
+/* Glowing text effect */
+@keyframes glowEffect {
+    0% { text-shadow: 0 0 15px #66ccff, 0 0 30px #fff; }
+    100% { text-shadow: 0 0 30px #66ccff, 0 0 60px #fff; }
+}
+
+/* Quiz container */
+.quiz-container, .result-container {
+    background: rgba(0, 0, 0, 0.5); /* Darker background for quiz */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    border-radius: 25px;
+    width: 400px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeInUp 0.8s ease-out forwards;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(-50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Question Styles */
+.question {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #bbdefb; /* Light blue text */
+    text-align: left;
+    padding: 10px;
+    background: linear-gradient(to right, #0d47a1, #1976d2);
+    border-radius: 10px;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+    animation: slideIn 1s ease forwards;
+}
+
+/* Options */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    animation: optionSlideIn 0.5s ease-out;
+}
+
+@keyframes optionSlideIn {
+    0% { opacity: 0; transform: translateX(-50px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.option {
+    background-color: #1976d2;
+    padding: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s ease;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.option:hover {
+    background-color: #1565c0;
+    transform: translateY(-5px);
+}
+
+.option.selected {
+    background-color: #0288d1;
+}
+
+.progress-container {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 8px;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #66ccff;
+    border-radius: 5px;
+    transition: width 0.4s ease;
+}
+
+.navigation-buttons button {
+    background-color: #0d47a1;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.navigation-buttons button:hover {
+    background-color: #1976d2;
+    transform: scale(1.05);
+}
+
+/* Result container */
+.result-container {
+    display: none;
+    text-align: left;
+    width: 500px;
+}
+
+.failed-question {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #0288d1;
+    border-radius: 10px;
+    font-size: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    height: 50px;
+}
+
+.failed-question:hover {
+    background-color: #0277bd;
+    transform: translateY(-5px);
+}
+
+.failed-question span {
+    font-weight: bold;
+}
+
+/* Reset and Home Buttons */
+.reset-button, .home-button, .back-button {
+    background-color: #1976d2;
+    padding: 15px 25px;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.home-button {
+    background-color: #0d47a1;
+}
+
+.back-button {
+    background-color: #1976d2;
+}
+
+.reset-button:hover, .home-button:hover, .back-button:hover {
+    background-color: #0288d1;
+    transform: scale(1.05);
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 600px) {
+    .quiz-container, .result-container {
+        width: 90%;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+    animation: fadeInUp 1s ease-out;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    color: #FFF;
+}
+
+.quiz-container {
+    margin-bottom: 1px;
+}
+
+    </style>
+    </style>
+</head>
+<body>
+
+    <!-- Heading at the top -->
+    <h1>Anime Quiz</h1>
+
+    <!-- Quiz Container -->
+    <div class="quiz-container" id="quiz-container">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div class="navigation-buttons">
+            <button id="next" onclick="navigate(1)">Next</button>
+        </div>
+
+        <button id="submit" onclick="submitQuiz()">Submit</button>
+    </div>
+
+    <!-- Result Container -->
+    <div class="result-container" id="result-container">
+        <p id="score"></p>
+        <div id="failed-questions"></div>
+        <button class="reset-button" onclick="resetQuiz()">Take Quiz Again</button>
+        <button class="back-button" onclick="goBack()">Back</button>
+    </div>
+    <footer>
+        <p>Test your anime knowledge!</p>
+    </footer>
+
+    <script>
+        // Shuffle function for randomizing questions
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        const allQuestions = [
+            { question: "Who is the main protagonist in *Naruto*?", options: ['Naruto Uzumaki', 'Sasuke Uchiha', 'Sakura Haruno', 'Kakashi Hatake'], answer: 'Naruto Uzumaki' },
+            { question: "Which anime features a character who says, 'I am going to be king of the pirates!'?", options: ['One Piece', 'Bleach', 'Attack on Titan', 'Naruto'], answer: 'One Piece' },
+            { question: "What is the name of the main villain in *Dragon Ball Z*?", options: ['Frieza', 'Cell', 'Majin Buu', 'Goku'], answer: 'Frieza' },
+            { question: "Which anime revolves around humanity's fight against giant humanoid creatures?", options: ['Attack on Titan', 'One Punch Man', 'My Hero Academia', 'Hunter x Hunter'], answer: 'Attack on Titan' },
+            { question: "What is the quirk of the protagonist in *My Hero Academia*?", options: ['All Might', 'One For All', 'Bakugo', 'Todoroki'], answer: 'One For All' }
+        ];
+
+        let displayedQuestions = [];
+        let userAnswers = {};
+        let score = 0;
+        let currentQuestion = 0;
+
+        // Show the current question and options
+        function showQuestion() {
+            let question = displayedQuestions[currentQuestion];
+            let container = document.getElementById('questions-container');
+            container.innerHTML = `
+                <div class="question">
+                    <p>Question ${currentQuestion + 1}: ${question.question}</p>
+                    <div class="options">
+                        ${question.options.map((option, idx) => `
+                            <div class="option ${userAnswers[currentQuestion] === option ? 'selected' : ''}" onclick="checkAnswer('${option}', this)">
+                                ${String.fromCharCode(65 + idx)}. ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateNavigationButtons();
+            updateProgressBar();
+        }
+
+        // Track user selection
+        function checkAnswer(selectedOption, element) {
+            userAnswers[currentQuestion] = selectedOption;
+            showQuestion();
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            const progress = ((currentQuestion + 1) / displayedQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Update navigation buttons visibility
+        function updateNavigationButtons() {
+            document.getElementById('next').style.display = currentQuestion === displayedQuestions.length - 1 ? "none" : "inline-block";
+            document.getElementById('submit').style.display = currentQuestion === displayedQuestions.length - 1 ? "inline-block" : "none";
+        }
+
+        // Navigate between questions
+        function navigate(direction) {
+            currentQuestion += direction;
+            showQuestion();
+        }
+
+        // Submit quiz and show results
+        function submitQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+
+            let failedQuestions = document.getElementById('failed-questions');
+            failedQuestions.innerHTML = "";
+            score = 0;
+
+            displayedQuestions.forEach((question, idx) => {
+                if (userAnswers[idx] === question.answer) {
+                    score++;
+                } else {
+                    let failedQuestion = document.createElement('div');
+                    failedQuestion.classList.add('failed-question');
+                    failedQuestion.innerHTML = `
+                        <p>Question ${idx + 1}: Your Answer: <span class="incorrect-answer">${userAnswers[idx] || "No Answer"}</span></p>
+                        <p>Correct Answer: <span class="correct-answer">${question.answer}</span></p>
+                    `;
+                    failedQuestions.appendChild(failedQuestion);
+                }
+            });
+
+            document.getElementById('score').innerText = `Your Score: ${score} out of ${displayedQuestions.length}`;
+        }
+
+        // Reset the quiz with shuffled questions
+        function resetQuiz() {
+            score = 0;
+            userAnswers = {};
+            currentQuestion = 0;
+            shuffle(allQuestions);
+            displayedQuestions = allQuestions.slice(0, 5);  // Display only 5 random questions
+
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('result-container').style.display = 'none';
+            showQuestion();
+        }
+
+        // Go back to previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        // Start the quiz immediately on page load
+        resetQuiz();
+    </script>
+
+</body>
+</html>
